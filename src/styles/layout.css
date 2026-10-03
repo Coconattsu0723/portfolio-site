@@ -1,0 +1,34 @@
+.container,
+body > header,
+body > footer {
+  inline-size: min(calc(100% - (var(--page-gutter) * 2)), var(--container-content));
+  margin-inline: auto;
+}
+
+.container-wide {
+  inline-size: min(calc(100% - (var(--page-gutter) * 2)), var(--container-wide));
+  margin-inline: auto;
+}
+
+.container-reading {
+  inline-size: min(calc(100% - (var(--page-gutter) * 2)), var(--container-reading));
+  margin-inline: auto;
+}
+
+main.container {
+  padding-block: var(--space-12) var(--space-16);
+}
+
+body > header {
+  padding-block: var(--space-4);
+}
+
+body > footer {
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 64rem) {
+  main.container {
+    padding-block: var(--space-16) var(--space-24);
+  }
+}

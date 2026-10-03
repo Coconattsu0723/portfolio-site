@@ -4,23 +4,56 @@ Webデザイナー転職用Portfolio Siteの制作Projectです。
 
 ## Status
 
-Planning / Foundation
+Foundation / Design System Next
 
-## Purpose
+## Tech Stack
 
-- Web Design作品の掲載
-- 制作判断を伝えるCase Study
-- Design + Front-endの制作過程の提示
-- Responsive / Accessibility / Performanceを含む制作力の提示
+- Astro 7.3.5
+- Astro / HTML / CSS / Vanilla JavaScript
+- Static Site Generation
+- Astro Content Collections + Markdown
+- Client Framework: None
+- Package Manager: npm
 
-## Current Phase
+## Current Routes
 
-Project Foundation / Tech Stack Decision
+- `/`
+- `/works/`
+- `/works/[slug]/`
+- `/about/`
+- `/contact/`
 
-現在は企画Documentと接続Referenceのみを管理しています。Tech Stack、Hosting、Contact方式は未決定です。Framework Scaffold、HTML / CSS / JavaScript実装、Design System、作品Assetはまだ追加していません。
+Foundation検証用として`/works/sample-project/`を生成します。
 
-## Planning Documents
+## Development
 
-- [`docs/00_PORTFOLIO_MASTER_PLAN.md`](docs/00_PORTFOLIO_MASTER_PLAN.md) — Portfolio全体の企画・情報設計の正本
-- [`docs/01_HOST_AUDIT.md`](docs/01_HOST_AUDIT.md) — 新規Project立ち上げに至った監査記録
-- [`docs/02_VISTA_INTEGRATION_REFERENCE.md`](docs/02_VISTA_INTEGRATION_REFERENCE.md) — VISTA掲載時のSource of Truth
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+GitHub Pages Project Site相当のBase Path Buildは、次で確認できます。
+
+```bash
+BASE_PATH=/portfolio-site npm run build
+```
+
+## Content
+
+Worksは`src/content/works/`のAstro Content Collectionで管理します。現在のSample EntryはFoundation検証専用です。
+
+## Documentation
+
+- [`docs/00_PORTFOLIO_MASTER_PLAN.md`](docs/00_PORTFOLIO_MASTER_PLAN.md)
+- [`docs/03_TECH_STACK_SPIKE.md`](docs/03_TECH_STACK_SPIKE.md)
+- [`docs/04_TECH_STACK_DECISION.md`](docs/04_TECH_STACK_DECISION.md)
+
+## Current Scope
+
+- Hosting: TBD
+- Design: Not Started
+- Production: Not Deployed
+- Contact Method: TBD
+- Production Work Content / Assets: Not Integrated

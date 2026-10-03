@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const works = await getCollection("works");
+
+  return works.map((work) => ({
+    params: { slug: work.data.slug },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+const moduleLabels = {
+  productUI: "Product UI",
+  informationArchitecture: "Information Architecture",
+  performance: "Performance",
+  accessibility: "Accessibility",
+  challenges: "Challenges",
+  branding: "Branding",
+  copy: "Copy",
+  interaction: "Interaction",
+  responsive: "Responsive",
+};
+---
+
+<BaseLayout title={`${work.data.title} | Portfolio`} description={work.data.description}>
+  <article>
+    <header>
+      <p>{work.data.category} / {work.data.type}</p>
+      <h1>{work.data.title}</h1>
+      <p>{work.data.description}</p>
+    </header>
+
+    <section aria-labelledby="project-info-heading">
+      <h2 id="project-info-heading">Project Info</h2>
+      <p>Year: {work.data.year}</p>
+      <p>Tags: {work.data.tags.join(", ")}</p>
+    </section>
+
+    <section aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Overview</h2>
+      <Content />
+    </section>
+
+    {
+      work.data.optionalModules.map((module) => (
+        <section data-module={module} aria-labelledby={`${module}-heading`}>
+          <h2 id={`${module}-heading`}>{moduleLabels[module]}</h2>
+          <p>Foundation確認用のOptional Moduleです。</p>
+        </section>
+      ))
+    }
+  </article>
+</BaseLayout>

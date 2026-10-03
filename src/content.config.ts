@@ -15,19 +15,23 @@ const optionalModule = z.enum([
 
 const works = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/works" }),
-  schema: z.object({
-    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-    title: z.string(),
-    category: z.string(),
-    type: z.string(),
-    description: z.string(),
-    year: z.string(),
-    tags: z.array(z.string()),
-    featured: z.boolean(),
-    liveUrl: z.string().url().optional(),
-    githubUrl: z.string().url().optional(),
-    optionalModules: z.array(optionalModule).default([]),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+      title: z.string(),
+      category: z.string(),
+      type: z.string(),
+      description: z.string(),
+      year: z.string().optional(),
+      tags: z.array(z.string()).max(3),
+      featured: z.boolean(),
+      thumbnail: image(),
+      thumbnailAlt: z.string(),
+      thumbnailFit: z.enum(["cover", "contain"]),
+      liveUrl: z.string().url().optional(),
+      githubUrl: z.string().url().optional(),
+      optionalModules: z.array(optionalModule).default([]),
+    }),
 });
 
 export const collections = { works };

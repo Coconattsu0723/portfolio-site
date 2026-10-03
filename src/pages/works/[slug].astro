@@ -36,7 +36,7 @@ const moduleLabels = {
 
     <section aria-labelledby="project-info-heading">
       <h2 id="project-info-heading">Project Info</h2>
-      <p>Year: {work.data.year}</p>
+      {work.data.year && <p>Year: {work.data.year}</p>}
       <p>Tags: {work.data.tags.join(", ")}</p>
     </section>
 

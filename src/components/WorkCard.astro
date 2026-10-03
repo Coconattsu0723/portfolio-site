@@ -1,0 +1,119 @@
+---
+import { Image } from "astro:assets";
+
+const { work } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<article class="work-card">
+  <div class:list={["work-card__visual", `work-card__visual--${work.data.thumbnailFit}`]}>
+    <Image
+      src={work.data.thumbnail}
+      alt={work.data.thumbnailAlt}
+      widths={[480, 720, 960]}
+      sizes="(min-width: 768px) 50vw, 100vw"
+      loading="lazy"
+      decoding="async"
+      class="work-card__image"
+    />
+  </div>
+
+  <div class="work-card__body">
+    <p class="work-card__meta">{work.data.category} / {work.data.type}</p>
+    <h3 class="work-card__title">
+      <a href={`${base}works/${work.data.slug}/`}>{work.data.title}</a>
+    </h3>
+    <p class="work-card__description">{work.data.description}</p>
+    <ul class="work-card__tags" aria-label={`${work.data.title}の特徴`}>
+      {work.data.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .work-card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-6);
+  }
+
+  .work-card__visual {
+    aspect-ratio: var(--ratio-work-thumbnail);
+    overflow: hidden;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .work-card__visual--contain {
+    padding: var(--space-3);
+  }
+
+  .work-card__visual :global(img) {
+    inline-size: 100%;
+    block-size: 100%;
+    transition: transform var(--duration-base) var(--ease-standard);
+  }
+
+  .work-card__visual--cover :global(img) {
+    object-fit: cover;
+  }
+
+  .work-card__visual--contain :global(img) {
+    object-fit: contain;
+  }
+
+  .work-card__body {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .work-card__meta {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-label);
+  }
+
+  .work-card__title {
+    margin: 0;
+  }
+
+  .work-card__title a {
+    color: var(--color-text);
+    text-decoration-color: transparent;
+  }
+
+  .work-card__description {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .work-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work-card__tags li {
+    padding: var(--space-1) var(--space-2);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+  }
+
+  .work-card:hover .work-card__title a {
+    color: var(--color-accent-hover);
+    text-decoration-color: currentColor;
+  }
+
+  .work-card:hover .work-card__image {
+    transform: scale(1.02);
+  }
+</style>

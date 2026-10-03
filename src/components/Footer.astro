@@ -1,3 +1,60 @@
-<footer>
-  <p>Portfolio Foundation</p>
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<footer class="site-footer">
+  <div>
+    <p class="site-footer__name">Web Designer Portfolio</p>
+    <p class="site-footer__note">Planning, Design, Development, Validation.</p>
+  </div>
+  <nav aria-label="フッターナビゲーション">
+    <ul class="site-footer__nav">
+      <li><a href={`${base}works/`}>Works</a></li>
+      <li><a href={`${base}about/`}>About</a></li>
+      <li><a href="https://github.com/Coconattsu0723">GitHub</a></li>
+    </ul>
+  </nav>
 </footer>
+
+<style>
+  .site-footer {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-8);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .site-footer__name,
+  .site-footer__note {
+    margin-block-end: var(--space-2);
+  }
+
+  .site-footer__name {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .site-footer__note {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
+  }
+
+  .site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__nav a {
+    font-size: var(--font-size-small);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+</style>

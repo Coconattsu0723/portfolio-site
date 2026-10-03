@@ -1,11 +1,305 @@
 ---
+import { getCollection } from "astro:content";
+import WorkCard from "../components/WorkCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+const featuredOrder = ["vista", "tsugi", "tane", "soto"];
+const works = await getCollection("works");
+const featuredWorks = featuredOrder
+  .map((slug) => works.find((work) => work.data.slug === slug))
+  .filter((work) => work !== undefined);
+
+const capabilities = [
+  {
+    label: "01",
+    title: "Planning",
+    description: "課題と目的を整理し、ターゲット、情報の優先順位、ページやセクションの役割を設計します。",
+  },
+  {
+    label: "02",
+    title: "Design",
+    description: "ブランドの方向性をWebへ落とし込み、内容に合うUI、Visual、Responsive Designを組み立てます。",
+  },
+  {
+    label: "03",
+    title: "Development",
+    description: "HTML、CSS、Vanilla JavaScriptを中心に、デザインを操作可能なWebとして実装します。",
+  },
+  {
+    label: "04",
+    title: "Validation",
+    description: "複数画面幅、Keyboard操作、Accessibility、画像配信、公開環境を確認し、必要な修正を行います。",
+  },
+];
 ---
 
 <BaseLayout
-  title="Portfolio"
-  description="Webデザイナー転職用Portfolio SiteのFoundationです。"
+  title="Portfolio | Web Designer"
+  description="企画からデザイン、実装、公開後の検証まで一貫して取り組むWeb DesignerのPortfolioです。"
 >
-  <h1>Portfolio</h1>
-  <p>Design System Next</p>
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="eyebrow">Web Designer</p>
+    <h1 id="hero-title">企画から、デザイン・実装・公開後の検証まで。</h1>
+    <p class="hero__lead">
+      課題と情報を整理し、目的に合うWebデザインを、実装・公開まで一貫して形にします。
+    </p>
+    <div class="hero__actions">
+      <a class="button-link button-link--primary" href="#featured-works">代表作品を見る</a>
+      <a class="button-link button-link--secondary" href={`${base}about/`}>About</a>
+    </div>
+  </section>
+
+  <section id="featured-works" class="home-section" aria-labelledby="featured-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Selected Work</p>
+        <h2 id="featured-title">Featured Works</h2>
+      </div>
+      <p>企画、情報設計、デザイン、実装、検証まで取り組んだ代表作品です。</p>
+    </div>
+    <div class="works-grid">
+      {featuredWorks.map((work) => <WorkCard work={work} />)}
+    </div>
+    <p class="section-link"><a href={`${base}works/`}>すべての作品を見る</a></p>
+  </section>
+
+  <section class="home-section" aria-labelledby="capabilities-title">
+    <div class="section-heading section-heading--compact">
+      <div>
+        <p class="eyebrow">Capabilities</p>
+        <h2 id="capabilities-title">できること</h2>
+      </div>
+    </div>
+    <ol class="capabilities">
+      {
+        capabilities.map((item) => (
+          <li>
+            <span>{item.label}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="home-section about" aria-labelledby="about-title">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2 id="about-title">考えたことを、公開できる形までつなぐ。</h2>
+    </div>
+    <div class="about__body">
+      <p>
+        Web Designerを目指し、課題設定と情報設計から、Visual Design、Responsive、Front-end実装、公開後の確認まで取り組んでいます。
+      </p>
+      <p>
+        見た目を整えるだけでなく、誰に何をどの順番で伝えるかを考え、実際のブラウザで検証しながら完成度を高めることを大切にしています。
+      </p>
+      <p><a href={`${base}about/`}>プロフィールと制作姿勢を見る</a></p>
+    </div>
+  </section>
+
+  <section class="home-section contact-cta" aria-labelledby="contact-title">
+    <p class="eyebrow">Contact</p>
+    <h2 id="contact-title">ご連絡について</h2>
+    <p>正式な連絡先は現在公開準備中です。作品と実装内容は各ProjectのDetailとGitHubから確認できます。</p>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    align-content: center;
+    min-block-size: min(42rem, calc(100svh - 9rem));
+    padding-block: var(--space-16) var(--space-24);
+  }
+
+  .hero h1 {
+    max-inline-size: 17ch;
+    margin-block-end: var(--space-6);
+    letter-spacing: -0.03em;
+  }
+
+  .hero__lead {
+    max-inline-size: 39rem;
+    margin-block-end: var(--space-8);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-lg);
+  }
+
+  .eyebrow {
+    margin-block-end: var(--space-3);
+    color: var(--color-accent);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.12em;
+    line-height: var(--line-height-label);
+    text-transform: uppercase;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 2.75rem;
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-width) solid transparent;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .button-link--primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .button-link--primary:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-on-accent);
+  }
+
+  .button-link--secondary {
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .button-link--secondary:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-accent-hover);
+  }
+
+  .home-section {
+    padding-block: var(--section-space);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .section-heading {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-end: var(--space-12);
+  }
+
+  .section-heading h2,
+  .section-heading p,
+  .about h2,
+  .contact-cta h2 {
+    margin-block-end: 0;
+  }
+
+  .section-heading > p {
+    max-inline-size: 37rem;
+    color: var(--color-text-muted);
+  }
+
+  .section-heading--compact {
+    margin-block-end: var(--space-8);
+  }
+
+  .works-grid {
+    display: grid;
+    gap: var(--space-16) var(--grid-gap);
+  }
+
+  .section-link {
+    margin-block: var(--space-12) 0;
+    text-align: end;
+  }
+
+  .capabilities {
+    display: grid;
+    gap: var(--space-8) var(--grid-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capabilities li {
+    padding-block-start: var(--space-4);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .capabilities span {
+    color: var(--color-accent);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .capabilities h3 {
+    margin-block: var(--space-3);
+  }
+
+  .capabilities p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .about {
+    display: grid;
+    gap: var(--space-8) var(--grid-gap);
+  }
+
+  .about__body {
+    max-inline-size: var(--container-reading);
+    font-size: var(--font-size-body-lg);
+  }
+
+  .about__body p:last-child {
+    margin-block: var(--space-8) 0;
+    font-size: var(--font-size-body);
+  }
+
+  .contact-cta {
+    padding-block-end: calc(var(--section-space) + var(--space-8));
+  }
+
+  .contact-cta p:last-child {
+    max-inline-size: 39rem;
+    margin: var(--space-6) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-lg);
+  }
+
+  @media (min-width: 48rem) {
+    .section-heading {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.7fr);
+      align-items: end;
+    }
+
+    .works-grid,
+    .capabilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero {
+      min-block-size: min(46rem, calc(100svh - 10rem));
+      padding-block: var(--space-24) var(--space-32);
+    }
+
+    .hero h1 {
+      font-size: var(--font-size-display);
+      line-height: var(--line-height-tight);
+    }
+
+    .capabilities {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
